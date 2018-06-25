@@ -17,7 +17,7 @@ window.onload = function() {
 				
 				{name: 'glass', quantity: 100, promotion: false}
 			],
-			prepayment_payment: [[true, 250], [false, 500]]
+			prepayment_payment: [[true, 550], [true, 1000]]
 
 		},
 		{
@@ -35,7 +35,7 @@ window.onload = function() {
 				{name: 'bike', quantity: 2,  promotion: true},
 				{name: 'chair', quantity: 10,  promotion: true}
 			],
-			prepayment_payment: [[true, 250], [true, 700]]
+			prepayment_payment: [[true, 250], [true, 800]]
 		},
 		{
 			fullName: {
@@ -53,7 +53,7 @@ window.onload = function() {
 				
 				{name: 'glass', quantity: 100, promotion: false}
 			],
-			prepayment_payment: [[true, 250], [false, 500]]
+			prepayment_payment:  [[true, 250], [false, 800]]
 		}
 	];
 	var mark = {
@@ -142,10 +142,11 @@ function reslt(obj, arr) {
 	return resArray;	
 }
 
-function dataIsArray (path, arr) {
+function dataIsArray (path, arr, i) {
+	console.log(path);
 	var res;
 	for (var j = 0; j < arr.length; j++) {
-		if (path[1] == j) {
+		if(path[i] == j) {
 			switch(typeof arr[j]) {
 				case "boolean":
 					if (arr[j]) {
@@ -160,23 +161,57 @@ function dataIsArray (path, arr) {
 					res = arr[j];
 				break;
 				case 'object':
-					var cls = getClass(rr[j]);
-					switch(cls) {
-						case 'Date': 
+					var cls = getClass(arr[j]);
+					switch (cls) {
+						case 'Data':
 							res = transformDate(arr[j]) ;
 						break;
 						case 'Object': 
-							res = datasType(pathArr, arr[j], j+1);
+							res = datasType(path, arr[j], i+1);
 						break;
 						case 'Array': 
-							res =  dataIsArray (path, arr[j]);
+							res =  dataIsArray (path, arr[j], i+1);
 						break;
 					}
 				break;
 			}
+		}
+		/*if (path[path.length-1] == j) {
+	
+			switch(typeof arr[j]) {
+				case "boolean":
+					if (arr[j]) {
+					res = 'yes';
+					
+					} else {
+						res = 'no';
+					}
+				break;
+				case 'string':
+				case 'number':
+					res = arr[j];
+				break;
+				case 'object':
+					var cls = getClass(arr[j]);
+					if(cls == 'Date') res = transformDate(arr[j]) ;
+				break;
+		 	}
+		} 	
+		else if (path[i] == j){
 
+			var cls = getClass(arr[j]);
+			switch (cls) {
+
+				case 'Object': 
+					res = datasType(path, arr[j], i+1);
+				break;
+				case 'Array': 
+					res =  dataIsArray (path, arr[j], i+1);
+				break;
+			}*/
 		}	
-	}
+			
+	
 	return res;
 }
 
@@ -194,17 +229,8 @@ function datasType (pathArr, data, i) {
 
 			break;
 			case 'Array': 
-				for (var j = 0; j < data.length; j++) {
-					if (pathArr[i+1] == 2) {
-						res = dataIsArray(pathArr, data);
-
-					} else {
-						if (pathArr[i+1] == j) {
-							res = datasType(pathArr, data[j], i+2);	
-						}	
-					}
-					
-				}
+				
+				res = dataIsArray(pathArr, data, i+1);
 						
 			break;
 		};
