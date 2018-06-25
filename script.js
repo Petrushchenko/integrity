@@ -5,7 +5,10 @@ window.onload = function() {
 			fullName: {
 				firstName: 'Ivan',
 				surName: 'Ivanov',
-				middleName: 'Ivanovich'
+				middleName: 'Ivanovich',
+				other:{
+                    mood:'good'
+                }
 			},
 			birthDate: new Date(1998, 5, 10),
 			dateOfPurchase:  new Date(2015, 5, 10),
@@ -15,12 +18,16 @@ window.onload = function() {
 				{name: 'glass', quantity: 100, promotion: false}
 			],
 			prepayment_payment: [[true, 250], [false, 500]]
+
 		},
 		{
 			fullName: {
 				firstName: 'Petr',
 				surName: 'Petrov',
-				middleName: 'Petrovich'
+				middleName: 'Petrovich',
+				other:{
+                    mood:'good'
+                }
 			},
 			birthDate:  new Date(2000, 5, 10),
 			dateOfPurchase:  new Date(2015, 5, 10),
@@ -34,7 +41,10 @@ window.onload = function() {
 			fullName: {
 				firstName: 'Sergey',
 				surName: 'Sergeev',
-				middleName: 'Ivanovich'
+				middleName: 'Ivanovich',
+				other:{
+                    mood:'good'
+                }
 			},
 			birthDate: new Date(1991, 5, 10),
 			dateOfPurchase:  new Date(2017, 5, 10),
@@ -50,7 +60,10 @@ window.onload = function() {
 		fullName: {
 				firstName: false,
 				surName: true,
-				middleName: false
+				middleName: false,
+				other:{
+                    mood:true
+                }
 			},
 		birthDate: true,
 		dateOfPurchase:  true,
@@ -88,7 +101,6 @@ function getValues(keys, data, localization) {
 		var resObj = {};
 	
 		keys.forEach(function(path){
-
 			resObj[path] = objProperty();
 
 			function objProperty () {
@@ -243,15 +255,19 @@ function ifContainBrackets(str) {
 }
 function newArr(obj) {
 	var newAr = [];
-	var path_g = Object.getOwnPropertyNames(obj); // array of keys Object.getOwnPropertyNames(mark)
+	// array of keys Object.getOwnPropertyNames(mark)
+	var path_g = Object.getOwnPropertyNames(obj); 
+
 	for (var i = 0; i < path_g.length; i++) {
 
 		if (typeof obj[path_g[i]] == 'boolean') {
+			
 			if (obj[path_g[i]]) {
 				newAr.push(path_g[i]);
 			}
 		} else {	
 			newAr = arrayOrObject(obj[path_g[i]], path_g[i], newAr);
+
 		}
 	}
 	
@@ -281,11 +297,10 @@ function chooseAr(ar, parent, res) {
 function checkObject(obj, parent, res) {
 	var path = '';
 	res = [];
-	for (var k in obj) {	
+	for (var k in obj) {
 		if (typeof obj[k] !== "boolean") {
 
-			res = arrayOrObject(obj[k], k, res);
-					
+			res = arrayOrObject(obj[k], parent +'.'+ k, res);
 		} else {
 			if (obj[k]) {
 				if (parent) {
@@ -304,11 +319,11 @@ function checkObject(obj, parent, res) {
 		
 function arrayOrObject(obj, parent, res){
 	var cls = getClass(obj);
-
+	
 	if (cls === 'Object') {
 
 		res = res.concat(checkObject(obj, parent, res));
-
+	
 	} else { 
 		res = res.concat(chooseAr(obj, parent, res));	
 	}
