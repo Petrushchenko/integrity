@@ -143,7 +143,6 @@ function reslt(obj, arr) {
 }
 
 function dataIsArray (path, arr, i) {
-	console.log(path);
 	var res;
 	for (var j = 0; j < arr.length; j++) {
 		if(path[i] == j) {
@@ -176,40 +175,8 @@ function dataIsArray (path, arr, i) {
 				break;
 			}
 		}
-		/*if (path[path.length-1] == j) {
 	
-			switch(typeof arr[j]) {
-				case "boolean":
-					if (arr[j]) {
-					res = 'yes';
-					
-					} else {
-						res = 'no';
-					}
-				break;
-				case 'string':
-				case 'number':
-					res = arr[j];
-				break;
-				case 'object':
-					var cls = getClass(arr[j]);
-					if(cls == 'Date') res = transformDate(arr[j]) ;
-				break;
-		 	}
-		} 	
-		else if (path[i] == j){
-
-			var cls = getClass(arr[j]);
-			switch (cls) {
-
-				case 'Object': 
-					res = datasType(path, arr[j], i+1);
-				break;
-				case 'Array': 
-					res =  dataIsArray (path, arr[j], i+1);
-				break;
-			}*/
-		}	
+	}	
 			
 	
 	return res;
